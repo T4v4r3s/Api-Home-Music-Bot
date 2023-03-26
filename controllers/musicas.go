@@ -40,16 +40,22 @@ func CriarMusica(w http.ResponseWriter, r *http.Request) { //Criar um usuário
 }
 
 func fila(URL string) {
-	Reproduzir(URL)
+
+	if len(queue) < 1 {
+		fmt.Print("Fila atual ")
+		queue = append(queue, URL)
+		Reproduzir(URL)
+	} else {
+		queue = append(queue, URL)
+		fmt.Print("Fila atual ")
+		fmt.Print(queue)
+	}
+
 }
 
 func Reproduzir(URL string) {
 
-	if len(queue) < 1 {
-
-		fmt.Println("FILA VAZIA")
-		queue = append(queue, URL)
-
+	for len(queue) != 0 {
 		cmd := exec.Command("yt-dlp", queue[0], "--exec", "ffplay -nodisp -autoexit", "filename", "--exec", "rm", "filename")
 		// Execute o comando e capture a saída
 		out, err := cmd.Output()
@@ -62,11 +68,6 @@ func Reproduzir(URL string) {
 		queue = queue[1:]
 
 		fmt.Println(queue)
-
-	} else {
-
-		println("FILA COM UM PELO MENOS")
-		queue = append(queue, URL)
-		fmt.Println(queue)
+		fmt.Println("acabou a reprodução")
 	}
 }
