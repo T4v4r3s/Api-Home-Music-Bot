@@ -31,7 +31,7 @@ func CriarMusica(w http.ResponseWriter, r *http.Request) { //Criar um usuário
 
 	fmt.Println(musica.URL)
 	//cmd := exec.Command("/home/tavares/Área de Trabalho/Api-Home-Music-Bot/baixar.sh", musica.URL)
-	cmd := exec.Command("yt-dlp", musica.URL)
+	cmd := exec.Command("yt-dlp", musica.URL, "--exec", "ffplay", "filename")
 
 	// Execute o comando e capture a saída
 	out, err := cmd.Output()
@@ -39,7 +39,6 @@ func CriarMusica(w http.ResponseWriter, r *http.Request) { //Criar um usuário
 		fmt.Println(err)
 	}
 
-	
 	fmt.Println(string(out))
 
 	respostas.JSON(w, http.StatusCreated, musica)
