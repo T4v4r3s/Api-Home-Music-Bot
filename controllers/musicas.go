@@ -10,6 +10,8 @@ import (
 	"os/exec"
 )
 
+var queue []string
+
 func CriarMusica(w http.ResponseWriter, r *http.Request) { //Criar um usuário
 	corpoRequest, erro := io.ReadAll(r.Body) //Faz a leitura do corpo da requisição
 	if erro != nil {
@@ -31,15 +33,40 @@ func CriarMusica(w http.ResponseWriter, r *http.Request) { //Criar um usuário
 
 	fmt.Println(musica.URL)
 	//cmd := exec.Command("/home/tavares/Área de Trabalho/Api-Home-Music-Bot/baixar.sh", musica.URL)
-	cmd := exec.Command("yt-dlp", musica.URL, "--exec", "ffplay -nodisp -autoexit", "filename", "--exec", "rm", "filename")
-
-	// Execute o comando e capture a saída
-	out, err := cmd.Output()
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	fmt.Println(string(out))
 
 	respostas.JSON(w, http.StatusCreated, musica)
+
+	go fila(musica.URL)
+}
+
+func fila(URL string) {
+	Reproduzir(URL)
+}
+
+func Reproduzir(URL string) {
+
+	if len(queue) < 1 {
+
+		fmt.Println("FILA VAZIA")
+		queue = append(queue, URL)
+
+		cmd := exec.Command("yt-dlp", queue[0], "--exec", "ffplay -nodisp -autoexit", "filename", "--exec", "rm", "filename")
+		// Execute o comando e capture a saída
+		out, err := cmd.Output()
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		fmt.Println(string(out))
+
+		queue = queue[1:]
+
+		fmt.Println(queue)
+
+	} else {
+
+		println("FILA COM UM PELO MENOS")
+		queue = append(queue, URL)
+		fmt.Println(queue)
+	}
 }
