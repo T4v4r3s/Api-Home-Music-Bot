@@ -11,6 +11,7 @@ import (
 )
 
 var queue []string
+var cmd *exec.Cmd
 
 func CriarMusica(w http.ResponseWriter, r *http.Request) { //Criar um usuário
 	corpoRequest, erro := io.ReadAll(r.Body) //Faz a leitura do corpo da requisição
@@ -56,18 +57,25 @@ func fila(URL string) {
 func Reproduzir(URL string) {
 
 	for len(queue) != 0 {
-		cmd := exec.Command("yt-dlp", queue[0], "--exec", "ffplay -nodisp -autoexit", "filename", "--exec", "rm", "filename")
+		cmd = exec.Command("yt-dlp", queue[0], "--exec", "ffplay -nodisp -autoexit", "filename", "--exec", "rm", "filename")
 		// Execute o comando e capture a saída
 		out, err := cmd.Output()
 		if err != nil {
 			fmt.Println(err)
 		}
-
 		fmt.Println(string(out))
 
 		queue = queue[1:]
 
 		fmt.Println(queue)
 		fmt.Println("acabou a reprodução")
+	}
+}
+
+func Pular(w http.ResponseWriter, r *http.Request) {
+	cmd := exec.Command("pkill", "ffplay")
+	err := cmd.Run()
+	if err != nil {
+		fmt.Printf("error stopping music: %v", err)
 	}
 }
