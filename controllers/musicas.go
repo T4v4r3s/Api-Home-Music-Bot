@@ -60,7 +60,7 @@ func fila(URL string) {
 
 func Reproduzir(URL string) {
 	for len(queue) != 0 {
-		cmd = exec.Command("yt-dlp", "--output", "%(title)s.%(ext)s", queue[0])
+		cmd = exec.Command("yt-dlp", "-x", "--audio-format", "mp3", "--output", "%(title)s.%(ext)s", queue[0])
 		_, err := cmd.Output()
 		if err != nil {
 			fmt.Println(err)
@@ -76,7 +76,7 @@ func Reproduzir(URL string) {
 		filename := string(out)
 		filename = strings.TrimSpace(filename)
 		filename = filepath.Join(os.Getenv("PWD"), filename)
-		filename = filename + ".webm"
+		filename = filename + ".mp3"
 
 		// Executa o ffplay para reproduzir o vídeo
 		cmd = exec.Command("ffplay", "-nodisp", "-autoexit", filename)
