@@ -45,6 +45,7 @@ func fila(URL string) {
 	if len(queue) < 1 {
 		fmt.Print("Fila atual ")
 		queue = append(queue, URL)
+		fmt.Print(queue)
 		Reproduzir(URL)
 	} else {
 		queue = append(queue, URL)
