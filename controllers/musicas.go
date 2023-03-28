@@ -7,7 +7,10 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 	"os/exec"
+	"path/filepath"
+	"strings"
 )
 
 var queue []string
@@ -56,15 +59,37 @@ func fila(URL string) {
 }
 
 func Reproduzir(URL string) {
-
 	for len(queue) != 0 {
-		cmd = exec.Command("yt-dlp", queue[0], "--exec", "ffplay -nodisp -autoexit", "filename", "--exec", "rm", "filename")
-		// Execute o comando e capture a saída
+		cmd = exec.Command("yt-dlp", "--output", "%(title)s.%(ext)s", queue[0])
+		_, err := cmd.Output()
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		cmd = exec.Command("yt-dlp", "--get-title", queue[0])
 		out, err := cmd.Output()
 		if err != nil {
 			fmt.Println(err)
 		}
-		fmt.Println(string(out))
+
+		// Obtém o nome do arquivo baixado
+		filename := string(out)
+		filename = strings.TrimSpace(filename)
+		filename = filepath.Join(os.Getenv("PWD"), filename)
+		filename = filename + ".webm"
+
+		// Executa o ffplay para reproduzir o vídeo
+		cmd = exec.Command("ffplay", "-nodisp", "-autoexit", filename)
+		_, err = cmd.Output()
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		// Deleta o arquivo baixado
+		err = os.Remove(filename)
+		if err != nil {
+			fmt.Println(err)
+		}
 
 		queue = queue[1:]
 
