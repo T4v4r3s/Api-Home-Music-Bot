@@ -108,3 +108,8 @@ func Pular(w http.ResponseWriter, r *http.Request) {
 func Fila(w http.ResponseWriter, r *http.Request) {
 	respostas.JSON(w, http.StatusCreated, queue)
 }
+
+func LimparFila(w http.ResponseWriter, r *http.Request) {
+	queue = queue[:0]
+	respostas.JSON(w, http.StatusOK, queue)
+}

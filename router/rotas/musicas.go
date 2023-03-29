@@ -19,19 +19,20 @@ var rotasMusicas = []Rota{ //Slice de struct rota para criar todas as rotas que 
 		RequerAutenticacao: true,
 	}, //rota para buscar todos os usuários
 	
-		{
-			Uri:                "/musicas/fila",
-			Metodo:             http.MethodGet,
-			Funcao:             controllers.Fila,
-			RequerAutenticacao: false,
-		},
-	/*
-		{
-			Uri:                "/usuarios/{usuarioid}",
-			Metodo:             http.MethodPut,
-			Funcao:             controllers.EditarUsuario,
-			RequerAutenticacao: false,
-		}, //Rota para editar um usuário
+	{
+		Uri:                "/musicas/fila",
+		Metodo:             http.MethodGet,
+		Funcao:             controllers.Fila,
+		RequerAutenticacao: false,
+	},
+
+	{
+		Uri:                "/musicas/fila",
+		Metodo:             http.MethodPut,
+		Funcao:             controllers.LimparFila,
+		RequerAutenticacao: false,
+	}, //Rota para editar um usuário
+		/*
 		{
 			Uri:                "/usuarios/{usuarioid}",
 			Metodo:             http.MethodDelete,
