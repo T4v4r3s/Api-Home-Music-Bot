@@ -104,3 +104,12 @@ func Pular(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("error stopping music: %v", err)
 	}
 }
+
+func Fila(w http.ResponseWriter, r *http.Request) {
+	respostas.JSON(w, http.StatusCreated, queue)
+}
+
+func LimparFila(w http.ResponseWriter, r *http.Request) {
+	queue = queue[:1]
+	respostas.JSON(w, http.StatusOK, queue)
+}
