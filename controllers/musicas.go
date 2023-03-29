@@ -60,13 +60,13 @@ func fila(URL string) {
 
 func Reproduzir(URL string) {
 	for len(queue) != 0 {
-		cmd = exec.Command("yt-dlp", "-x", "--audio-format", "mp3", "--output", "%(title)s.%(ext)s", queue[0])
+		cmd = exec.Command("yt-dlp", "-x", "--audio-format", "mp3", "restrict-filenames", "-o", "%(title)s.%(ext)s", "ytsearch:" + queue[0])
 		_, err := cmd.Output()
 		if err != nil {
 			fmt.Println(err)
 		}
 
-		cmd = exec.Command("yt-dlp", "--get-title", queue[0])
+		cmd = exec.Command("yt-dlp", "--get-filename", "--restrict-filenames","-o","%(title)s","ytsearch:" + queue[0])
 		out, err := cmd.Output()
 		if err != nil {
 			fmt.Println(err)
