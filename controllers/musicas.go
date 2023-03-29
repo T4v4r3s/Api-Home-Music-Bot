@@ -110,6 +110,6 @@ func Fila(w http.ResponseWriter, r *http.Request) {
 }
 
 func LimparFila(w http.ResponseWriter, r *http.Request) {
-	queue = queue[:0]
+	queue = queue[:1]
 	respostas.JSON(w, http.StatusOK, queue)
 }
