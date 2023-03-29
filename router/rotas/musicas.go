@@ -18,13 +18,14 @@ var rotasMusicas = []Rota{ //Slice de struct rota para criar todas as rotas que 
 		Funcao:             controllers.Pular,
 		RequerAutenticacao: true,
 	}, //rota para buscar todos os usuários
-	/*
+	
 		{
-			Uri:                "/usuarios/{usuarioid}",
+			Uri:                "/musicas/fila",
 			Metodo:             http.MethodGet,
-			Funcao:             controllers.BuscarUsuario,
+			Funcao:             controllers.Fila,
 			RequerAutenticacao: false,
-		}, //Rota para buscar um usuário em específico
+		},
+	/*
 		{
 			Uri:                "/usuarios/{usuarioid}",
 			Metodo:             http.MethodPut,
