@@ -1,8 +1,11 @@
 package controllers
 
 import (
+	"api/modelos"
 	"api/respostas"
+	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 	"os/exec"
@@ -14,7 +17,7 @@ var queue []string
 var cmd *exec.Cmd
 
 func CriarMusica(w http.ResponseWriter, r *http.Request) { //Criar um usuário
-	/* corpoRequest, erro := io.ReadAll(r.Body) //Faz a leitura do corpo da requisição
+	corpoRequest, erro := io.ReadAll(r.Body) //Faz a leitura do corpo da requisição
 	if erro != nil {
 		respostas.Erro(w, http.StatusUnprocessableEntity, erro)
 		return
@@ -32,14 +35,14 @@ func CriarMusica(w http.ResponseWriter, r *http.Request) { //Criar um usuário
 		return
 	}
 
-	fmt.Println(musica.URL) */
+	fmt.Println(musica.URL)
 	//cmd := exec.Command("/home/tavares/Área de Trabalho/Api-Home-Music-Bot/baixar.sh", musica.URL)
 
-	linkounome := r.URL.Query().Get("n") // Pega os valores da querry da URL (?n=valor)
+	//linkounome := r.URL.Query().Get("n") // Pega os valores da querry da URL (?n=valor)
 
-	respostas.JSON(w, http.StatusCreated, linkounome)
+	//respostas.JSON(w, http.StatusCreated, linkounome)
 
-	go fila(linkounome)
+	go fila(musica.URL)
 }
 
 func fila(URL string) {
