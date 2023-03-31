@@ -40,7 +40,7 @@ func CriarMusica(w http.ResponseWriter, r *http.Request) { //Criar um usuário
 
 	//linkounome := r.URL.Query().Get("n") // Pega os valores da querry da URL (?n=valor)
 
-	//respostas.JSON(w, http.StatusCreated, linkounome)
+	respostas.JSON(w, http.StatusCreated, musica)
 
 	go fila(musica.URL)
 }
